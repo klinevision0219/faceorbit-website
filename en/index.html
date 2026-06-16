@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faceorbit — Facial Structure Tracking</title>
+  <meta name="description" content="22 facial metrics. Track your own baseline. See your real trends with Faceorbit.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0A0F; --surface: #13131A; --border: #1E1E2A;
+      --accent: #7B9EFF; --accent-dim: rgba(123,158,255,0.12);
+      --text: #F0F2F5; --text-mid: #9AA0B4; --text-dim: #4A4F63;
+      --white: #ffffff; --grid-line: rgba(123,158,255,0.06);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+      font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px; pointer-events: none; z-index: 0;
+    }
+
+    /* LANG SWITCHER */
+    .lang-bar {
+      position: fixed; top: 60px; right: 24px; z-index: 200;
+      display: flex; gap: 4px; background: rgba(19,19,26,0.9);
+      border: 1px solid var(--border); border-radius: 8px; padding: 4px;
+      backdrop-filter: blur(12px);
+    }
+    .lang-bar a {
+      font-size: 12px; font-weight: 500; color: var(--text-dim);
+      text-decoration: none; padding: 4px 8px; border-radius: 5px; letter-spacing: 0.03em;
+      transition: background 0.15s, color 0.15s;
+    }
+    .lang-bar a:hover { color: var(--text); background: var(--border); }
+    .lang-bar a.active { color: var(--accent); background: var(--accent-dim); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+      background: rgba(10,10,15,0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--text-mid); text-decoration: none; font-size: 13px; letter-spacing: 0.04em; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 120px 24px 80px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 32px;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 24px; height: 1px; background: var(--accent); opacity: 0.5; }
+    .hero h1 { font-size: clamp(36px, 6vw, 72px); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--white); }
+    .hero-sub { font-size: clamp(18px, 2.5vw, 26px); font-weight: 300; color: var(--text-mid); margin-bottom: 24px; }
+    .hero-tagline { max-width: 560px; font-size: 16px; color: var(--text-mid); line-height: 1.75; margin-bottom: 48px; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #0A0A0F; font-size: 15px; font-weight: 600;
+      padding: 14px 32px; border-radius: 50px; text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s; letter-spacing: 0.02em;
+    }
+    .hero-cta:hover { opacity: 0.88; transform: translateY(-1px); }
+    .hero-stat-row { display: flex; gap: 48px; margin-top: 72px; padding-top: 48px; border-top: 1px solid var(--border); }
+    .hero-stat { text-align: center; }
+    .hero-stat-num { font-size: 36px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .hero-stat-label { font-size: 12px; color: var(--text-dim); margin-top: 4px; letter-spacing: 0.06em; }
+
+    section { position: relative; z-index: 1; }
+    .section-inner { max-width: 960px; margin: 0 auto; padding: 100px 24px; }
+    .section-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .section-title { font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: var(--white); margin-bottom: 16px; }
+    .section-desc { font-size: 17px; color: var(--text-mid); max-width: 600px; line-height: 1.75; margin-bottom: 60px; }
+
+    .dimensions { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .dim-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .dim-card { background: var(--surface); padding: 40px 32px; }
+    .dim-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--accent-dim); border: 1px solid rgba(123,158,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 24px; }
+    .dim-en { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+    .dim-zh { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 16px; }
+    .dim-metrics { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .dim-metrics li { font-size: 14px; color: var(--text-mid); padding-left: 16px; position: relative; line-height: 1.5; }
+    .dim-metrics li::before { content: ''; position: absolute; left: 0; top: 8px; width: 5px; height: 1px; background: var(--accent); opacity: 0.6; }
+
+    .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 36px 32px; transition: border-color 0.25s; }
+    .feature-card:hover { border-color: rgba(123,158,255,0.3); }
+    .feature-icon { font-size: 24px; margin-bottom: 16px; }
+    .feature-title { font-size: 18px; font-weight: 600; color: var(--white); margin-bottom: 10px; letter-spacing: -0.01em; }
+    .feature-desc { font-size: 14px; color: var(--text-mid); line-height: 1.7; }
+
+    .philosophy { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .philosophy-quote { font-size: clamp(22px, 3.5vw, 36px); font-weight: 300; color: var(--white); line-height: 1.5; max-width: 720px; border-left: 2px solid var(--accent); padding-left: 32px; }
+    .philosophy-quote strong { font-weight: 700; color: var(--accent); }
+
+    .cta-section { text-align: center; padding: 120px 24px; }
+    .cta-section h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 700; color: var(--white); margin-bottom: 20px; letter-spacing: -0.02em; }
+    .cta-section p { color: var(--text-mid); font-size: 17px; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .app-store-badge { display: inline-flex; align-items: center; gap: 12px; background: var(--white); color: #0A0A0F; border-radius: 12px; padding: 12px 24px; text-decoration: none; font-weight: 600; font-size: 15px; transition: opacity 0.2s; }
+    .app-store-badge:hover { opacity: 0.88; }
+
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 40px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-size: 14px; font-weight: 600; letter-spacing: 0.08em; color: var(--text-mid); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text-mid); }
+    .footer-copy { font-size: 12px; color: var(--text-dim); width: 100%; margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; } .nav-links { display: none; }
+      .hero-stat-row { gap: 24px; flex-wrap: wrap; justify-content: center; }
+      .dim-grid { grid-template-columns: 1fr; } .features-grid { grid-template-columns: 1fr; }
+      footer { padding: 32px 20px; } .lang-bar { top: 68px; right: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/en/" class="nav-logo">Face<span>orbit</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="/en/support.html">Support</a></li>
+    <li><a href="/en/privacy.html">Privacy</a></li>
+    <li><a href="/en/terms.html">Terms</a></li>
+  </ul>
+</nav>
+
+<div class="lang-bar">
+  <a href="/zh/">中文</a>
+  <a href="/en/" class="active">EN</a>
+  <a href="/ja/">日本語</a>
+  <a href="/ko/">한국어</a>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">Precision Facial Measurement · Long-term Tracking</div>
+  <h1>Faceorbit</h1>
+  <p class="hero-sub">Facial Structure Tracking</p>
+  <p class="hero-tagline">
+    Your face changes every day — but the shifts are too subtle to notice in the moment.
+    Faceorbit uses facial landmark detection to measure 22 structural metrics,
+    so you can compare yourself to yourself and see your real trends.
+  </p>
+  <a href="#" class="hero-cta">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download on App Store
+  </a>
+  <div class="hero-stat-row">
+    <div class="hero-stat"><div class="hero-stat-num">22</div><div class="hero-stat-label">Facial Metrics</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">468</div><div class="hero-stat-label">Landmark Points</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">Analysis Dimensions</div></div>
+  </div>
+</section>
+
+<section class="philosophy">
+  <div class="section-inner">
+    <p class="section-label">Core Philosophy</p>
+    <blockquote class="philosophy-quote">
+      Rather than chasing a single "perfect" score, Faceorbit focuses on two things:
+      <strong>your facial symmetry</strong> and <strong>the stability of long-term change</strong>.
+      Understanding your own baseline and tracking your direction matters more than any external standard.
+    </blockquote>
+  </div>
+</section>
+
+<section class="dimensions">
+  <div class="section-inner">
+    <p class="section-label">Three Analysis Dimensions</p>
+    <h2 class="section-title">22 Metrics Total</h2>
+    <p class="section-desc">From symmetry and facial proportions to early aging signals — your face, fully measured.</p>
+    <div class="dim-grid">
+      <div class="dim-card">
+        <div class="dim-icon">⚖️</div>
+        <div class="dim-en">Dimension 01</div>
+        <div class="dim-zh">Balance</div>
+        <ul class="dim-metrics">
+          <li>Midline deviation — left-right structural gap</li>
+          <li>Brow-eye distance — fatigue and expression habits</li>
+          <li>Mouth corner height difference — smile asymmetry quantified</li>
+          <li>Jaw angle difference — structural symmetry detection</li>
+        </ul>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">📐</div>
+        <div class="dim-en">Dimension 02</div>
+        <div class="dim-zh">Proportion</div>
+        <ul class="dim-metrics">
+          <li>Jaw arc radius — the basic curve of your face shape</li>
+          <li>Cheekbone-to-jaw ratio — key driver of first impressions</li>
+          <li>Philtrum ratio — golden ratio clues in the details</li>
+          <li>Jaw firmness — early changes in jawline definition</li>
+        </ul>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">⏱️</div>
+        <div class="dim-en">Dimension 03</div>
+        <div class="dim-zh">Aging</div>
+        <ul class="dim-metrics">
+          <li>Nasolabial fold depth — one of the earliest aging signals</li>
+          <li>Cheek displacement — changes in facial support</li>
+          <li>Marionette lines — now trackable for the first time</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-inner">
+    <p class="section-label">Why Faceorbit</p>
+    <h2 class="section-title">Science-based. Self-focused.</h2>
+    <p class="section-desc">Not subjective scoring — a long-term tracking system grounded in geometric measurement.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3 class="feature-title">Personal Best, Always Saved</h3>
+        <p class="feature-desc">Every metric automatically records your historical best value and the date it was achieved, along with the gap from today. The most direct proof of your own progress.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3 class="feature-title">Crowd Benchmark Comparison</h3>
+        <p class="feature-desc">Your data is compared in real-time against anonymized benchmarks from the same country and age group. Not a beauty contest — an objective coordinate to understand where you stand.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Trend Tracking</h3>
+        <p class="feature-desc">Each metric shows an "Above / Below / Stable" status indicator so you can see at a glance which direction your face is heading — not just a single snapshot, but a trend curve over time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">Fully On-Device Processing</h3>
+        <p class="feature-desc">All facial detection and measurement runs entirely on your device. Your facial images never leave your phone. Privacy stays with you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="section-label" style="margin-bottom:20px;">Get Started</div>
+  <h2>Start tracking your face<br>from today.</h2>
+  <p>One photo per measurement. Fits naturally into your daily routine.</p>
+  <a href="#" class="app-store-badge">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download on the App Store
+  </a>
+</section>
+
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/en/support.html">Support</a></li>
+    <li><a href="/en/privacy.html">Privacy Policy</a></li>
+    <li><a href="/en/terms.html">Terms of Use</a></li>
+    <li><a href="mailto:faceorbittw@gmail.com">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Faceorbit. All rights reserved.</p>
+</footer>
+
+
+
+</body>
+</html>

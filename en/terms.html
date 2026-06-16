@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Use — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0F; --surface:#13131A; --border:#1E1E2A; --accent:#7B9EFF; --text:#F0F2F5; --text-mid:#9AA0B4; --text-dim:#4A4F63; --white:#ffffff; --grid-line:rgba(123,158,255,0.06); }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif; font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; z-index:0; }
+    .lang-bar { position:fixed; top:60px; right:24px; z-index:200; display:flex; gap:4px; background:rgba(19,19,26,0.9); border:1px solid var(--border); border-radius:8px; padding:4px; backdrop-filter:blur(12px); }
+    .lang-bar a { font-size:12px; font-weight:500; color:var(--text-dim); text-decoration:none; padding:4px 8px; border-radius:5px; transition:background 0.15s,color 0.15s; }
+    .lang-bar a:hover { color:var(--text); background:var(--border); }
+    .lang-bar a.active { color:var(--accent); background:rgba(123,158,255,0.1); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:60px; background:rgba(10,10,15,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-size:15px; font-weight:600; letter-spacing:0.08em; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-back { font-size:13px; color:var(--text-mid); text-decoration:none; }
+    .nav-back:hover { color:var(--text); }
+    main { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:72px 24px 120px; }
+    .page-eyebrow { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+    h1 { font-size:40px; font-weight:700; color:var(--white); letter-spacing:-0.02em; margin-bottom:12px; }
+    .last-updated { font-size:13px; color:var(--text-dim); margin-bottom:56px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+    h2 { font-size:20px; font-weight:600; color:var(--white); margin-top:48px; margin-bottom:16px; }
+    h2::before { content:attr(data-num); display:inline-block; font-size:11px; font-weight:600; color:var(--accent); letter-spacing:0.1em; margin-right:12px; opacity:0.8; }
+    p { color:var(--text-mid); margin-bottom:16px; }
+    ul { list-style:none; margin-bottom:16px; }
+    ul li { color:var(--text-mid); padding:8px 0 8px 20px; position:relative; border-bottom:1px solid var(--border); }
+    ul li:last-child { border-bottom:none; }
+    ul li::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:6px; height:1px; background:var(--accent); opacity:0.5; }
+    .highlight-box { background:rgba(123,158,255,0.07); border:1px solid rgba(123,158,255,0.2); border-radius:12px; padding:24px 28px; margin:32px 0; }
+    .highlight-box p { margin:0; color:var(--text); font-size:15px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-logo { font-size:14px; font-weight:600; color:var(--text-mid); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:20px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+    .footer-links a:hover { color:var(--text-mid); }
+    @media(max-width:600px){ nav{padding:0 20px;} h1{font-size:30px;} footer{padding:24px 20px;} .lang-bar{top:68px;right:12px;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/en/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/en/" class="nav-back">← Back</a>
+</nav>
+<div class="lang-bar">
+  <a href="/zh/terms.html">中文</a>
+  <a href="/en/terms.html" class="active">EN</a>
+  <a href="/ja/terms.html">日本語</a>
+  <a href="/ko/terms.html">한국어</a>
+</div>
+<main>
+  <p class="page-eyebrow">Legal</p>
+  <h1>Terms of Use</h1>
+  <p class="last-updated">Last updated: June 2025</p>
+  <div class="highlight-box"><p>By using the Faceorbit app, you agree to these Terms of Use. Please read carefully before using the app.</p></div>
+
+  <h2 data-num="1.">Service Description</h2>
+  <p>Faceorbit (the "App") is developed by an independent developer and distributed through the Apple App Store. The App provides facial geometric measurement, long-term trend tracking, and crowd benchmark comparison features. All measurement results are for personal reference only and do not constitute medical, cosmetic, or health advice.</p>
+
+  <h2 data-num="2.">Eligibility</h2>
+  <ul>
+    <li>You are at least 13 years old (or meet the minimum age requirement in your region)</li>
+    <li>If you are under 18, you have obtained parental or guardian consent</li>
+    <li>You have the legal capacity to agree to these Terms</li>
+  </ul>
+
+  <h2 data-num="3.">Subscriptions and Payments</h2>
+  <ul>
+    <li>Subscription fees are charged to your Apple ID account at the start of each subscription period</li>
+    <li>Subscriptions auto-renew unless cancelled at least 24 hours before the end of the current period</li>
+    <li>You can manage or cancel subscriptions in your Apple ID settings</li>
+    <li>Completed purchases are generally non-refundable per Apple App Store policy; contact Apple for exceptional cases</li>
+  </ul>
+
+  <h2 data-num="4.">Acceptable Use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use the App for any unlawful purpose</li>
+    <li>Attempt to reverse-engineer, crack, or modify the App</li>
+    <li>Use the App to measure another person's face without their explicit consent</li>
+    <li>Use measurement results for commercial purposes without authorization</li>
+    <li>Spread false information that could damage the App's reputation</li>
+  </ul>
+
+  <h2 data-num="5.">Disclaimers</h2>
+  <p>All measurement data provided by the App are reference-only geometric computation results and do not constitute medical, cosmetic, or health advice. Faceorbit is not liable for any decisions made based on App data.</p>
+  <p>The App is provided "as is" without warranties of any kind, including accuracy, fitness for a particular purpose, or uninterrupted service. We reserve the right to modify, suspend, or discontinue the service at any time.</p>
+
+  <h2 data-num="6.">Intellectual Property</h2>
+  <p>All content, design, code, and brand elements of this App are protected by copyright and owned by the developer. No element of the App may be reproduced, modified, or distributed without written authorization.</p>
+
+  <h2 data-num="7.">Third-Party Services</h2>
+  <ul>
+    <li>Apple App Store — payment and distribution platform</li>
+    <li>Google MediaPipe — on-device facial detection (runs entirely locally)</li>
+    <li>Firebase — app configuration management (no personal identifiers)</li>
+    <li>Supabase — cloud storage for anonymous measurement values</li>
+    <li>RevenueCat — subscription management</li>
+  </ul>
+
+  <h2 data-num="8.">Limitation of Liability</h2>
+  <p>To the maximum extent permitted by law, the developer is not liable for any indirect, incidental, special, or consequential damages, including loss of profits, data loss, or business interruption, even if advised of the possibility of such damages.</p>
+
+  <h2 data-num="9.">Changes to Terms</h2>
+  <p>We reserve the right to modify these Terms at any time. Significant changes will be communicated via in-app notification or by updating this page. Continued use of the App after changes constitutes acceptance of the updated Terms.</p>
+
+  <h2 data-num="10.">Governing Law</h2>
+  <p>These Terms are governed by and construed in accordance with the laws of the Republic of China (Taiwan). Any disputes arising from these Terms shall first be resolved through good-faith negotiation.</p>
+
+  <h2 data-num="11.">Contact</h2>
+  <p>For any questions about these Terms:<br><a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a></p>
+</main>
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/en/">Home</a></li>
+    <li><a href="/en/support.html">Support</a></li>
+    <li><a href="/en/privacy.html">Privacy Policy</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

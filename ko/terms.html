@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이용약관 — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0F; --surface:#13131A; --border:#1E1E2A; --accent:#7B9EFF; --text:#F0F2F5; --text-mid:#9AA0B4; --text-dim:#4A4F63; --white:#ffffff; --grid-line:rgba(123,158,255,0.06); }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Helvetica Neue',sans-serif; font-size:16px; line-height:1.8; -webkit-font-smoothing:antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; z-index:0; }
+    .lang-bar { position:fixed; top:60px; right:24px; z-index:200; display:flex; gap:4px; background:rgba(19,19,26,0.9); border:1px solid var(--border); border-radius:8px; padding:4px; backdrop-filter:blur(12px); }
+    .lang-bar a { font-size:12px; font-weight:500; color:var(--text-dim); text-decoration:none; padding:4px 8px; border-radius:5px; transition:background .15s,color .15s; }
+    .lang-bar a:hover { color:var(--text); background:var(--border); }
+    .lang-bar a.active { color:var(--accent); background:rgba(123,158,255,0.1); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:60px; background:rgba(10,10,15,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-size:15px; font-weight:600; letter-spacing:0.08em; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-back { font-size:13px; color:var(--text-mid); text-decoration:none; }
+    .nav-back:hover { color:var(--text); }
+    main { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:72px 24px 120px; }
+    .page-eyebrow { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+    h1 { font-size:34px; font-weight:700; color:var(--white); margin-bottom:12px; }
+    .last-updated { font-size:13px; color:var(--text-dim); margin-bottom:56px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+    h2 { font-size:19px; font-weight:600; color:var(--white); margin-top:48px; margin-bottom:16px; }
+    h2::before { content:attr(data-num); display:inline-block; font-size:11px; font-weight:600; color:var(--accent); letter-spacing:0.1em; margin-right:12px; opacity:0.8; }
+    p { color:var(--text-mid); margin-bottom:16px; }
+    ul { list-style:none; margin-bottom:16px; }
+    ul li { color:var(--text-mid); padding:8px 0 8px 20px; position:relative; border-bottom:1px solid var(--border); }
+    ul li:last-child { border-bottom:none; }
+    ul li::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:6px; height:1px; background:var(--accent); opacity:0.5; }
+    .highlight-box { background:rgba(123,158,255,0.07); border:1px solid rgba(123,158,255,0.2); border-radius:12px; padding:24px 28px; margin:32px 0; }
+    .highlight-box p { margin:0; color:var(--text); font-size:15px; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-logo { font-size:14px; font-weight:600; color:var(--text-mid); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:20px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+    .footer-links a:hover { color:var(--text-mid); }
+    @media(max-width:600px){ nav{padding:0 20px;} h1{font-size:26px;} footer{padding:24px 20px;} .lang-bar{top:68px;right:12px;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/ko/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/ko/" class="nav-back">← 돌아가기</a>
+</nav>
+<div class="lang-bar">
+  <a href="/zh/terms.html">中文</a>
+  <a href="/en/terms.html">EN</a>
+  <a href="/ja/terms.html">日本語</a>
+  <a href="/ko/terms.html" class="active">한국어</a>
+</div>
+<main>
+  <p class="page-eyebrow">Legal</p>
+  <h1>이용약관</h1>
+  <p class="last-updated">최종 업데이트: 2025년 6월</p>
+  <div class="highlight-box"><p>Faceorbit 앱을 이용하시면 아래 이용약관에 동의하신 것으로 간주합니다. 이용 전에 꼭 읽어주세요.</p></div>
+  <h2 data-num="1.">서비스 설명</h2>
+  <p>Faceorbit（'본 앱'）은 개인 개발자가 개발하여 Apple App Store를 통해 배포합니다. 본 앱은 얼굴 기하학적 측정·장기 트렌드 추적·군중 벤치마크 비교 기능을 제공합니다. 모든 측정 결과는 개인 참고용이며 의료·미용·건강 상의 조언을 구성하지 않습니다.</p>
+  <h2 data-num="2.">이용 자격</h2>
+  <ul>
+    <li>만 13세 이상（또는 거주 지역의 최소 연령 요건 충족）</li>
+    <li>만 18세 미만인 경우 보호자의 동의를 받은 경우</li>
+    <li>본 약관에 동의할 법적 능력이 있는 경우</li>
+  </ul>
+  <h2 data-num="3.">구독 및 결제</h2>
+  <ul>
+    <li>구독 요금은 각 기간 시작 시 Apple ID에 청구됩니다</li>
+    <li>현재 기간 종료 24시간 전까지 취소하지 않으면 자동 갱신됩니다</li>
+    <li>Apple ID 설정에서 구독 관리·취소가 가능합니다</li>
+    <li>Apple App Store 정책에 따라 완료된 구매는 원칙적으로 환불되지 않습니다</li>
+  </ul>
+  <h2 data-num="4.">금지 행위</h2>
+  <p>다음 행위를 금지합니다：</p>
+  <ul>
+    <li>불법적인 목적으로 본 앱 사용</li>
+    <li>역공학·크래킹·변조 시도</li>
+    <li>명시적 동의 없이 타인의 얼굴 측정</li>
+    <li>허가 없이 측정 결과를 상업적 목적으로 사용</li>
+    <li>본 앱의 평판을 손상시키는 허위 정보 유포</li>
+  </ul>
+  <h2 data-num="5.">면책 조항</h2>
+  <p>본 앱이 제공하는 모든 측정 데이터는 참고용 기하학적 계산 결과이며 의료·미용·건강 상의 조언을 구성하지 않습니다. 앱 데이터를 기반으로 한 결정에 대해 개발자는 어떠한 책임도 지지 않습니다.</p>
+  <p>본 앱은 '있는 그대로' 제공되며 정확성·특정 목적 적합성·지속적인 서비스 제공에 대한 보증을 하지 않습니다.</p>
+  <h2 data-num="6.">지적재산권</h2>
+  <p>본 앱의 모든 콘텐츠·디자인·코드·브랜드 요소는 저작권법으로 보호되며 개발자에게 귀속됩니다. 서면 허가 없이 복제·수정·배포할 수 없습니다.</p>
+  <h2 data-num="7.">제3자 서비스</h2>
+  <ul>
+    <li>Apple App Store — 결제·배포 플랫폼</li>
+    <li>Google MediaPipe — 기기 내 얼굴 감지 기술（완전 로컬 처리）</li>
+    <li>Firebase — 앱 설정 관리（개인 식별 정보 없음）</li>
+    <li>Supabase — 익명 측정값 클라우드 저장</li>
+    <li>RevenueCat — 구독 관리</li>
+  </ul>
+  <h2 data-num="8.">책임 제한</h2>
+  <p>법률이 허용하는 최대 범위 내에서, 개발자는 그러한 손해 가능성을 사전에 통지받은 경우에도 일실이익·데이터 손실·영업 중단을 포함한 간접적·부수적·특별·파생적 손해에 대해 어떠한 책임도 지지 않습니다.</p>
+  <h2 data-num="9.">약관 변경</h2>
+  <p>본 약관은 언제든지 변경될 수 있습니다. 중요한 변경 사항은 앱 내 알림 또는 이 페이지 업데이트로 안내합니다. 변경 후에도 앱을 계속 이용하시면 업데이트된 약관에 동의한 것으로 간주합니다.</p>
+  <h2 data-num="10.">준거법</h2>
+  <p>본 약관은 중화민국（대만）법률에 따라 해석됩니다. 분쟁이 발생할 경우 먼저 성실한 협의를 통한 해결을 시도합니다.</p>
+  <h2 data-num="11.">문의하기</h2>
+  <p>본 약관에 관한 문의：<br><a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a></p>
+</main>
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/ko/">홈</a></li>
+    <li><a href="/ko/support.html">지원</a></li>
+    <li><a href="/ko/privacy.html">개인정보처리방침</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

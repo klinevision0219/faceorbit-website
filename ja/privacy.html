@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>プライバシーポリシー — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0F; --surface:#13131A; --border:#1E1E2A; --accent:#7B9EFF; --text:#F0F2F5; --text-mid:#9AA0B4; --text-dim:#4A4F63; --white:#ffffff; --grid-line:rgba(123,158,255,0.06); }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic','Helvetica Neue',sans-serif; font-size:16px; line-height:1.8; -webkit-font-smoothing:antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; z-index:0; }
+    .lang-bar { position:fixed; top:60px; right:24px; z-index:200; display:flex; gap:4px; background:rgba(19,19,26,0.9); border:1px solid var(--border); border-radius:8px; padding:4px; backdrop-filter:blur(12px); }
+    .lang-bar a { font-size:12px; font-weight:500; color:var(--text-dim); text-decoration:none; padding:4px 8px; border-radius:5px; transition:background .15s,color .15s; }
+    .lang-bar a:hover { color:var(--text); background:var(--border); }
+    .lang-bar a.active { color:var(--accent); background:rgba(123,158,255,0.1); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:60px; background:rgba(10,10,15,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-size:15px; font-weight:600; letter-spacing:0.08em; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-back { font-size:13px; color:var(--text-mid); text-decoration:none; }
+    .nav-back:hover { color:var(--text); }
+    main { position:relative; z-index:1; max-width:720px; margin:0 auto; padding:72px 24px 120px; }
+    .page-eyebrow { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+    h1 { font-size:36px; font-weight:700; color:var(--white); letter-spacing:-0.01em; margin-bottom:12px; }
+    .last-updated { font-size:13px; color:var(--text-dim); margin-bottom:56px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+    h2 { font-size:19px; font-weight:600; color:var(--white); margin-top:48px; margin-bottom:16px; }
+    h2::before { content:attr(data-num); display:inline-block; font-size:11px; font-weight:600; color:var(--accent); letter-spacing:0.1em; margin-right:12px; opacity:0.8; }
+    p { color:var(--text-mid); margin-bottom:16px; }
+    ul { list-style:none; margin-bottom:16px; }
+    ul li { color:var(--text-mid); padding:8px 0 8px 20px; position:relative; border-bottom:1px solid var(--border); }
+    ul li:last-child { border-bottom:none; }
+    ul li::before { content:''; position:absolute; left:0; top:50%; transform:translateY(-50%); width:6px; height:1px; background:var(--accent); opacity:0.5; }
+    .highlight-box { background:rgba(123,158,255,0.07); border:1px solid rgba(123,158,255,0.2); border-radius:12px; padding:24px 28px; margin:32px 0; }
+    .highlight-box p { margin:0; color:var(--text); }
+    .highlight-box strong { color:var(--accent); }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-logo { font-size:14px; font-weight:600; color:var(--text-mid); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:20px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+    .footer-links a:hover { color:var(--text-mid); }
+    @media(max-width:600px){ nav{padding:0 20px;} h1{font-size:28px;} footer{padding:24px 20px;} .lang-bar{top:68px;right:12px;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/ja/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/ja/" class="nav-back">← 戻る</a>
+</nav>
+<div class="lang-bar">
+  <a href="/zh/privacy.html">中文</a>
+  <a href="/en/privacy.html">EN</a>
+  <a href="/ja/privacy.html" class="active">日本語</a>
+  <a href="/ko/privacy.html">한국어</a>
+</div>
+<main>
+  <p class="page-eyebrow">Legal</p>
+  <h1>プライバシーポリシー</h1>
+  <p class="last-updated">最終更新日：2025年6月</p>
+  <div class="highlight-box">
+    <p><strong>基本方針：</strong>すべての顔検出・計測処理はお使いのデバイス上で完結します。Faceorbitは顔画像を収集・アップロード・外部サーバーに保存することは一切ありません。</p>
+  </div>
+  <h2 data-num="1.">収集する情報</h2>
+  <p>Faceorbitはサービス提供のため、以下の情報を収集します：</p>
+  <ul>
+    <li><strong>顔面計測値（数値のみ、画像ではありません）：</strong>22項目の計測結果。長期トレンド追跡・ベンチマーク比較のためデバイスおよびクラウドDBに保存されます。</li>
+    <li><strong>デバイス識別子：</strong>同一ユーザーの連続計測を紐付けるために使用。個人情報とは連携しません。</li>
+    <li><strong>人口統計情報（任意）：</strong>国、年齢層、性別 — クラウドベンチマーク比較のみに使用し、完全に匿名化されます。</li>
+    <li><strong>アプリ使用状況分析：</strong>機能使用頻度・クラッシュレポートなどの匿名統計。品質向上のために使用します。</li>
+  </ul>
+  <h2 data-num="2.">収集しない情報</h2>
+  <ul>
+    <li>顔写真・画像 — すべての画像はデバイスのメモリ上でリアルタイム処理後、即座に破棄されます</li>
+    <li>氏名・メールアドレスなどの個人識別情報（サポートへのお問い合わせ時を除く）</li>
+    <li>位置情報</li>
+    <li>連絡先・他のアプリのデータ</li>
+  </ul>
+  <h2 data-num="3.">顔検出技術について</h2>
+  <p>FaceorbitはMediaPipe Face Meshを使用し、468個の顔ランドマーク点をデバイス上でのみ検出します。サーバーに送信されるのは計算後の数値結果（例：対称指数 = 0.92）のみであり、いかなる形式の画像も送信されません。</p>
+  <h2 data-num="4.">情報の利用目的</h2>
+  <ul>
+    <li>個人の長期トレンドグラフおよび自己ベスト記録の提供</li>
+    <li>同国・同年齢層の匿名ベンチマークデータとの比較</li>
+    <li>アルゴリズムの精度向上およびアプリの安定性改善</li>
+  </ul>
+  <h2 data-num="5.">データの保存とセキュリティ</h2>
+  <p>計測値はSupabaseが提供する安全なクラウドDBに業界標準の暗号化で保存されます。通信はHTTPS/TLSで暗号化されます。お客様のデータを第三者のマーケティング機関に販売・提供することは一切ありません。</p>
+  <h2 data-num="6.">サブスクリプションと支払い</h2>
+  <p>アプリ内購入・サブスクリプションはApple App Storeを通じて処理されます。Faceorbitは支払い情報を保存しません。管理・キャンセル・返金はApple IDの設定から行ってください。</p>
+  <h2 data-num="7.">お子様のプライバシー</h2>
+  <p>Faceorbitは13歳未満のお子様を対象としていません。未成年が保護者の同意なく使用していることが判明した場合は、ご連絡ください。該当データを削除いたします。</p>
+  <h2 data-num="8.">お客様の権利</h2>
+  <ul>
+    <li>アプリ設定からいつでもすべての計測記録を削除できます</li>
+    <li>アカウントおよび関連データの完全削除をリクエストできます</li>
+    <li>いつでもアプリをアンインストールできます</li>
+  </ul>
+  <h2 data-num="9.">ポリシーの変更</h2>
+  <p>重要な変更がある場合はアプリ内でお知らせし、このページの更新日を変更します。変更後もアプリを継続してご利用いただくことで、更新後のポリシーに同意したものとみなします。</p>
+  <h2 data-num="10.">お問い合わせ</h2>
+  <p>プライバシーに関するご質問・データ削除のご依頼は：<br><a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a></p>
+</main>
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/ja/">ホーム</a></li>
+    <li><a href="/ja/support.html">サポート</a></li>
+    <li><a href="/ja/terms.html">利用規約</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

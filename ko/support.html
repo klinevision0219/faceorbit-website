@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지원 — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0F; --surface:#13131A; --border:#1E1E2A; --accent:#7B9EFF; --accent-dim:rgba(123,158,255,0.1); --text:#F0F2F5; --text-mid:#9AA0B4; --text-dim:#4A4F63; --white:#ffffff; --grid-line:rgba(123,158,255,0.06); }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR','Helvetica Neue',sans-serif; font-size:16px; line-height:1.8; -webkit-font-smoothing:antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; z-index:0; }
+    .lang-bar { position:fixed; top:60px; right:24px; z-index:200; display:flex; gap:4px; background:rgba(19,19,26,0.9); border:1px solid var(--border); border-radius:8px; padding:4px; backdrop-filter:blur(12px); }
+    .lang-bar a { font-size:12px; font-weight:500; color:var(--text-dim); text-decoration:none; padding:4px 8px; border-radius:5px; transition:background .15s,color .15s; }
+    .lang-bar a:hover { color:var(--text); background:var(--border); }
+    .lang-bar a.active { color:var(--accent); background:rgba(123,158,255,0.1); }
+    nav { position:sticky; top:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:60px; background:rgba(10,10,15,0.9); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-size:15px; font-weight:600; letter-spacing:0.08em; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-back { font-size:13px; color:var(--text-mid); text-decoration:none; }
+    .nav-back:hover { color:var(--text); }
+    main { position:relative; z-index:1; max-width:760px; margin:0 auto; padding:72px 24px 120px; }
+    .page-eyebrow { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); margin-bottom:16px; }
+    h1 { font-size:34px; font-weight:700; color:var(--white); margin-bottom:16px; }
+    .hero-desc { font-size:17px; color:var(--text-mid); margin-bottom:56px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+    .contact-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:36px 32px; display:flex; align-items:flex-start; gap:24px; margin-bottom:64px; transition:border-color 0.2s; }
+    .contact-card:hover { border-color:rgba(123,158,255,0.3); }
+    .contact-icon { width:48px; height:48px; border-radius:12px; background:var(--accent-dim); border:1px solid rgba(123,158,255,0.2); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+    .contact-content h3 { font-size:18px; font-weight:600; color:var(--white); margin-bottom:6px; }
+    .contact-content p { font-size:14px; color:var(--text-mid); margin-bottom:16px; }
+    .contact-email { display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:#0A0A0F; font-size:14px; font-weight:600; padding:10px 20px; border-radius:8px; text-decoration:none; transition:opacity 0.2s; }
+    .contact-email:hover { opacity:0.85; }
+    .faq-section h2 { font-size:24px; font-weight:700; color:var(--white); margin-bottom:32px; }
+    .faq-list { display:flex; flex-direction:column; gap:2px; }
+    .faq-item { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+    .faq-q { display:flex; align-items:center; justify-content:space-between; padding:20px 24px; cursor:pointer; user-select:none; }
+    .faq-q-text { font-size:15px; font-weight:500; color:var(--text); line-height:1.5; }
+    .faq-icon { font-size:18px; color:var(--accent); flex-shrink:0; margin-left:16px; transition:transform 0.25s; }
+    .faq-item.open .faq-icon { transform:rotate(45deg); }
+    .faq-a { display:none; padding:16px 24px 20px; font-size:14px; color:var(--text-mid); line-height:1.8; border-top:1px solid var(--border); }
+    .faq-item.open .faq-a { display:block; }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:32px 40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+    .footer-logo { font-size:14px; font-weight:600; color:var(--text-mid); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:20px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; }
+    .footer-links a:hover { color:var(--text-mid); }
+    @media(max-width:600px){ nav{padding:0 20px;} h1{font-size:26px;} .contact-card{flex-direction:column;} footer{padding:24px 20px;} .lang-bar{top:68px;right:12px;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/ko/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/ko/" class="nav-back">← 돌아가기</a>
+</nav>
+<div class="lang-bar">
+  <a href="/zh/support.html">中文</a>
+  <a href="/en/support.html">EN</a>
+  <a href="/ja/support.html">日本語</a>
+  <a href="/ko/support.html" class="active">한국어</a>
+</div>
+<main>
+  <p class="page-eyebrow">Support</p>
+  <h1>고객 지원</h1>
+  <p class="hero-desc">궁금한 점이나 제안 사항이 있으신가요? 언제든지 문의해 주세요.</p>
+  <div class="contact-card">
+    <div class="contact-icon">✉️</div>
+    <div class="contact-content">
+      <h3>문의하기</h3>
+      <p>질문·피드백·기능 요청은 이메일로 보내주세요. 보통 1~3 영업일 이내에 답변드립니다.</p>
+      <a href="mailto:faceorbittw@gmail.com" class="contact-email">faceorbittw@gmail.com</a>
+    </div>
+  </div>
+  <div class="faq-section">
+    <h2>자주 묻는 질문</h2>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">얼굴 사진이 서버에 업로드되나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">아닙니다. 모든 얼굴 감지·측정은 귀하의 기기에서 완전히 처리됩니다. 얼굴 이미지가 스마트폰 밖으로 나가는 일은 없습니다. 서버로 전송되는 것은 계산된 수치 결과뿐입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">측정 빈도나 권장 시간이 있나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">하루 1회, 동일한 조건에서（예: 아침 세안 후, 자연광, 정면을 바라본 상태）측정하시길 권장합니다. 일관된 조건이 장기 트렌드 데이터의 정확도를 높입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">22가지 지표는 어떻게 계산되나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">Faceorbit은 MediaPipe Face Mesh를 사용하여 468개의 얼굴 랜드마크 포인트를 감지하고, 기하학적 계산（거리·각도·비율 등）으로 각 지표값을 산출합니다. 주관적 점수나 필터 효과가 아닌 과학적 기하 측정입니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">군중 벤치마크 데이터는 어디서 오나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">모든 사용자의 익명 측정 결과를 국가·성별·연령대별로 집계한 데이터입니다. 모두 완전히 익명화되어 있어 개인을 특정할 수 없습니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">구독을 취소하려면 어떻게 하나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">iPhone 설정 → Apple ID → 구독 → Faceorbit 선택 → 구독 취소. 현재 결제 기간이 끝날 때까지 계속 이용하실 수 있습니다. 모든 구독은 Apple을 통해 관리됩니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">모든 데이터를 삭제하려면 어떻게 하나요?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">앱 설정에서 '모든 기록 삭제'를 선택하거나 <a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a>으로 연락 주세요. 7 영업일 이내에 처리해 드립니다.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">지원 언어는?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">번체 중국어·영어·일본어·한국어를 지원합니다.</div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/ko/">홈</a></li>
+    <li><a href="/ko/privacy.html">개인정보처리방침</a></li>
+    <li><a href="/ko/terms.html">이용약관</a></li>
+  </ul>
+</footer>
+<script>
+  function toggleFaq(el) { el.closest('.faq-item').classList.toggle('open'); }
+</script>
+</body>
+</html>

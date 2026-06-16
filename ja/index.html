@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faceorbit — 顔型トラッキング</title>
+  <meta name="description" content="22項目の顔面計測データで、自分自身と比較しながら本当の変化を見つけよう。">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#0A0A0F; --surface:#13131A; --border:#1E1E2A; --accent:#7B9EFF; --accent-dim:rgba(123,158,255,0.12); --text:#F0F2F5; --text-mid:#9AA0B4; --text-dim:#4A4F63; --white:#ffffff; --grid-line:rgba(123,158,255,0.06); }
+    html { scroll-behavior: smooth; }
+    body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Yu Gothic','Helvetica Neue',sans-serif; font-size:16px; line-height:1.7; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px); background-size:48px 48px; pointer-events:none; z-index:0; }
+    .lang-bar { position:fixed; top:60px; right:24px; z-index:200; display:flex; gap:4px; background:rgba(19,19,26,0.9); border:1px solid var(--border); border-radius:8px; padding:4px; backdrop-filter:blur(12px); }
+    .lang-bar a { font-size:12px; font-weight:500; color:var(--text-dim); text-decoration:none; padding:4px 8px; border-radius:5px; transition:background .15s,color .15s; }
+    .lang-bar a:hover { color:var(--text); background:var(--border); }
+    .lang-bar a.active { color:var(--accent); background:rgba(123,158,255,0.1); }
+    nav { position:fixed; top:0; left:0; right:0; z-index:100; display:flex; align-items:center; justify-content:space-between; padding:0 40px; height:60px; background:rgba(10,10,15,0.85); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); }
+    .nav-logo { font-size:15px; font-weight:600; letter-spacing:0.08em; color:var(--text); text-decoration:none; }
+    .nav-logo span { color:var(--accent); }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a { color:var(--text-mid); text-decoration:none; font-size:13px; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--text); }
+    .hero { position:relative; z-index:1; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:120px 24px 80px; }
+    .hero-eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:32px; }
+    .hero-eyebrow::before,.hero-eyebrow::after { content:''; width:24px; height:1px; background:var(--accent); opacity:0.5; }
+    .hero h1 { font-size:clamp(36px,6vw,72px); font-weight:700; line-height:1.1; letter-spacing:-0.02em; margin-bottom:12px; color:var(--white); }
+    .hero-sub { font-size:clamp(18px,2.5vw,26px); font-weight:300; color:var(--text-mid); margin-bottom:24px; }
+    .hero-tagline { max-width:560px; font-size:16px; color:var(--text-mid); line-height:1.85; margin-bottom:48px; }
+    .hero-cta { display:inline-flex; align-items:center; gap:10px; background:var(--accent); color:#0A0A0F; font-size:15px; font-weight:600; padding:14px 32px; border-radius:50px; text-decoration:none; transition:opacity 0.2s,transform 0.2s; }
+    .hero-cta:hover { opacity:0.88; transform:translateY(-1px); }
+    .hero-stat-row { display:flex; gap:48px; margin-top:72px; padding-top:48px; border-top:1px solid var(--border); }
+    .hero-stat { text-align:center; }
+    .hero-stat-num { font-size:36px; font-weight:700; color:var(--accent); font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+    .hero-stat-label { font-size:12px; color:var(--text-dim); margin-top:4px; letter-spacing:0.04em; }
+    section { position:relative; z-index:1; }
+    .section-inner { max-width:960px; margin:0 auto; padding:100px 24px; }
+    .section-label { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:20px; }
+    .section-title { font-size:clamp(28px,4vw,44px); font-weight:700; line-height:1.2; letter-spacing:-0.01em; color:var(--white); margin-bottom:16px; }
+    .section-desc { font-size:17px; color:var(--text-mid); max-width:600px; line-height:1.85; margin-bottom:60px; }
+    .dimensions { background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .dim-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .dim-card { background:var(--surface); padding:40px 32px; }
+    .dim-icon { width:40px; height:40px; border-radius:10px; background:var(--accent-dim); border:1px solid rgba(123,158,255,0.2); display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:24px; }
+    .dim-en { font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+    .dim-zh { font-size:20px; font-weight:700; color:var(--white); margin-bottom:16px; }
+    .dim-metrics { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .dim-metrics li { font-size:14px; color:var(--text-mid); padding-left:16px; position:relative; line-height:1.6; }
+    .dim-metrics li::before { content:''; position:absolute; left:0; top:8px; width:5px; height:1px; background:var(--accent); opacity:0.6; }
+    .features-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; }
+    .feature-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:36px 32px; transition:border-color 0.25s; }
+    .feature-card:hover { border-color:rgba(123,158,255,0.3); }
+    .feature-icon { font-size:24px; margin-bottom:16px; }
+    .feature-title { font-size:18px; font-weight:600; color:var(--white); margin-bottom:10px; }
+    .feature-desc { font-size:14px; color:var(--text-mid); line-height:1.75; }
+    .philosophy { background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+    .philosophy-quote { font-size:clamp(20px,3vw,32px); font-weight:300; color:var(--white); line-height:1.6; max-width:720px; border-left:2px solid var(--accent); padding-left:32px; }
+    .philosophy-quote strong { font-weight:700; color:var(--accent); }
+    .cta-section { text-align:center; padding:120px 24px; }
+    .cta-section h2 { font-size:clamp(26px,4vw,44px); font-weight:700; color:var(--white); margin-bottom:20px; line-height:1.3; }
+    .cta-section p { color:var(--text-mid); font-size:17px; margin-bottom:40px; max-width:480px; margin-left:auto; margin-right:auto; }
+    .app-store-badge { display:inline-flex; align-items:center; gap:12px; background:var(--white); color:#0A0A0F; border-radius:12px; padding:12px 24px; text-decoration:none; font-weight:600; font-size:15px; transition:opacity 0.2s; }
+    .app-store-badge:hover { opacity:0.88; }
+    footer { position:relative; z-index:1; border-top:1px solid var(--border); padding:40px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .footer-logo { font-size:14px; font-weight:600; letter-spacing:0.08em; color:var(--text-mid); }
+    .footer-logo span { color:var(--accent); }
+    .footer-links { display:flex; gap:24px; list-style:none; }
+    .footer-links a { font-size:13px; color:var(--text-dim); text-decoration:none; transition:color 0.2s; }
+    .footer-links a:hover { color:var(--text-mid); }
+    .footer-copy { font-size:12px; color:var(--text-dim); width:100%; margin-top:8px; }
+    @media(max-width:768px){ nav{padding:0 20px;} .nav-links{display:none;} .hero-stat-row{gap:24px;flex-wrap:wrap;justify-content:center;} .dim-grid{grid-template-columns:1fr;} .features-grid{grid-template-columns:1fr;} footer{padding:32px 20px;} .lang-bar{top:68px;right:12px;} }
+  </style>
+</head>
+<body>
+<nav>
+  <a href="/ja/" class="nav-logo">Face<span>orbit</span></a>
+  <ul class="nav-links">
+    <li><a href="#features">機能</a></li>
+    <li><a href="/ja/support.html">サポート</a></li>
+    <li><a href="/ja/privacy.html">プライバシー</a></li>
+    <li><a href="/ja/terms.html">利用規約</a></li>
+  </ul>
+</nav>
+<div class="lang-bar">
+  <a href="/zh/">中文</a>
+  <a href="/en/">EN</a>
+  <a href="/ja/" class="active">日本語</a>
+  <a href="/ko/">한국어</a>
+</div>
+
+<section class="hero">
+  <div class="hero-eyebrow">精密顔面計測 · 長期トレンド追跡</div>
+  <h1>Faceorbit</h1>
+  <p class="hero-sub">顔型トラッキング</p>
+  <p class="hero-tagline">毎日、あなたの顔はわずかに変化しています。でもその変化は、自分では気づけないほど微細。Faceorbitは顔のランドマーク検出技術で22項目を計測し、「過去の自分と比べる」方法で本当のトレンドを可視化します。</p>
+  <a href="#" class="hero-cta">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    App Storeからダウンロード
+  </a>
+  <div class="hero-stat-row">
+    <div class="hero-stat"><div class="hero-stat-num">22</div><div class="hero-stat-label">顔面計測指標</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">468</div><div class="hero-stat-label">ランドマーク点</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">3</div><div class="hero-stat-label">分析ディメンション</div></div>
+  </div>
+</section>
+
+<section class="philosophy">
+  <div class="section-inner">
+    <p class="section-label">コアフィロソフィー</p>
+    <blockquote class="philosophy-quote">
+      単一の「完璧」な数値を追うのではなく、Faceorbitが重視するのは2つのこと：<strong>顔の左右対称性</strong>と<strong>長期的な変化の安定トレンド</strong>。自分のベースラインを理解し、変化の方向を追跡することが、どんな外部基準より意味を持ちます。
+    </blockquote>
+  </div>
+</section>
+
+<section class="dimensions">
+  <div class="section-inner">
+    <p class="section-label">3つの分析ディメンション</p>
+    <h2 class="section-title">合計22項目のデータ</h2>
+    <p class="section-desc">対称性・顔型比率・老化サインまで、あなたの顔を科学的に数値化。</p>
+    <div class="dim-grid">
+      <div class="dim-card">
+        <div class="dim-icon">⚖️</div>
+        <div class="dim-en">Balance</div>
+        <div class="dim-zh">バランス</div>
+        <ul class="dim-metrics">
+          <li>顔中心軸のズレ — 左右構造の非対称を検出</li>
+          <li>眉・目の距離 — 疲労と表情グセを反映</li>
+          <li>口角高低差 — 微笑みの非対称を数値化</li>
+          <li>下顎角度差 — 構造的対称性の検出</li>
+        </ul>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">📐</div>
+        <div class="dim-en">Proportion</div>
+        <div class="dim-zh">プロポーション</div>
+        <ul class="dim-metrics">
+          <li>下顎弧の半径 — 顔型の基本カーブ</li>
+          <li>頬骨・下顎比率 — 第一印象を決める比率</li>
+          <li>人中比率 — ゴールデンレシオの手がかり</li>
+          <li>下顎のハリ — フェイスラインの早期変化</li>
+        </ul>
+      </div>
+      <div class="dim-card">
+        <div class="dim-icon">⏱️</div>
+        <div class="dim-en">Aging</div>
+        <div class="dim-zh">エイジング</div>
+        <ul class="dim-metrics">
+          <li>法令線の深さ — 最も早く現れる老化サイン</li>
+          <li>りんご筋の位置変化 — 顔のサポート力の変化</li>
+          <li>マリオネットライン — 初めて追跡可能に</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-inner">
+    <p class="section-label">なぜFaceorbitなのか</p>
+    <h2 class="section-title">科学的計測。自己比較中心。</h2>
+    <p class="section-desc">主観的なスコアではなく、幾何学的計測に基づいた長期トラッキングシステム。</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3 class="feature-title">自己ベスト、永久保存</h3>
+        <p class="feature-desc">各指標の過去最高値と達成日を自動記録。現在値との差も表示され、自分自身の成長軌跡がいつでも確認できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3 class="feature-title">クラウドベンチマーク比較</h3>
+        <p class="feature-desc">同国・同年齢層の匿名ユーザーデータとリアルタイム比較。美醜の比較ではなく、自分の顔の特徴を客観的に知るための座標軸です。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">トレンド追跡</h3>
+        <p class="feature-desc">各指標に「上昇 / 下降 / 安定」のステータス表示。一枚の写真ではなく、時間をかけて積み上げたトレンドカーブで変化の方向がわかります。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3 class="feature-title">完全オンデバイス処理</h3>
+        <p class="feature-desc">顔の検出と計測はすべてあなたのデバイス上で完結。顔画像がサーバーに送られることは一切ありません。プライバシーはあなたのもとに。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="section-label" style="margin-bottom:20px;">今すぐ始める</div>
+  <h2>今日から、データで<br>あなたの顔の軌跡を記録しよう。</h2>
+  <p>1回の計測に必要なのは写真1枚。日常に自然に溶け込みます。</p>
+  <a href="#" class="app-store-badge">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    App Storeでダウンロード
+  </a>
+</section>
+
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/ja/support.html">サポート</a></li>
+    <li><a href="/ja/privacy.html">プライバシーポリシー</a></li>
+    <li><a href="/ja/terms.html">利用規約</a></li>
+    <li><a href="mailto:faceorbittw@gmail.com">お問い合わせ</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Faceorbit. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
