@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>使用條款 — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0A0F;
+      --surface: #13131A;
+      --border: #1E1E2A;
+      --accent: #7B9EFF;
+      --text: #F0F2F5;
+      --text-mid: #9AA0B4;
+      --text-dim: #4A4F63;
+      --white: #ffffff;
+      --grid-line: rgba(123,158,255,0.06);
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back { font-size: 13px; color: var(--text-mid); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 72px 24px 120px;
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .last-updated {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      margin-top: 48px;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    h2::before {
+      content: attr(data-num);
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-right: 12px;
+      opacity: 0.8;
+    }
+
+    p { color: var(--text-mid); margin-bottom: 16px; }
+
+    ul {
+      list-style: none;
+      margin-bottom: 16px;
+      padding-left: 0;
+    }
+    ul li {
+      color: var(--text-mid);
+      padding: 8px 0 8px 20px;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    ul li:last-child { border-bottom: none; }
+    ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .highlight-box {
+      background: rgba(123,158,255,0.07);
+      border: 1px solid rgba(123,158,255,0.2);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .highlight-box p { margin: 0; color: var(--text); font-size: 15px; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo { font-size: 14px; font-weight: 600; color: var(--text-mid); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; }
+    .footer-links a:hover { color: var(--text-mid); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      h1 { font-size: 30px; }
+      footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/" class="nav-back">← 返回首頁</a>
+</nav>
+
+<main>
+  <p class="page-eyebrow">Legal</p>
+  <h1>使用條款</h1>
+  <p class="last-updated">最後更新：2025 年 6 月 ／ Terms of Use</p>
+
+  <div class="highlight-box">
+    <p>使用 Faceorbit App 即表示你同意以下使用條款。請在使用前仔細閱讀。</p>
+  </div>
+
+  <h2 data-num="1.">服務說明</h2>
+  <p>
+    Faceorbit（「本 App」）由個人開發者提供，透過 Apple App Store 發佈。
+    本 App 提供臉部幾何結構量測、長期趨勢追蹤及群眾基準比對等功能。
+    所有量測結果僅供個人參考，不具任何醫療診斷或美容建議性質。
+  </p>
+
+  <h2 data-num="2.">使用資格</h2>
+  <p>使用本 App 即表示你聲明：</p>
+  <ul>
+    <li>你年滿 13 歲（或符合你所在地區的最低年齡要求）</li>
+    <li>若你未滿 18 歲，已取得監護人同意</li>
+    <li>你有能力並同意接受本使用條款的約束</li>
+  </ul>
+
+  <h2 data-num="3.">訂閱與付款</h2>
+  <p>本 App 提供免費基本功能及付費進階訂閱方案：</p>
+  <ul>
+    <li>訂閱費用於訂閱期開始時透過你的 Apple ID 帳戶扣款</li>
+    <li>除非在當前訂閱週期結束前至少 24 小時取消，否則訂閱將自動續訂</li>
+    <li>在 App 內購買後，你可在 Apple ID 設定中管理或取消訂閱</li>
+    <li>依 Apple App Store 政策，已完成的購買通常不予退款，如有特殊情況請透過 Apple 申請</li>
+  </ul>
+
+  <h2 data-num="4.">可接受使用</h2>
+  <p>你同意不得：</p>
+  <ul>
+    <li>使用本 App 進行任何違法活動</li>
+    <li>嘗試反向工程、破解或修改本 App</li>
+    <li>使用本 App 量測他人臉部而未經其明確同意</li>
+    <li>將本 App 的量測結果用於商業目的而未經授權</li>
+    <li>散佈任何可能損害本 App 聲譽的不實資訊</li>
+  </ul>
+
+  <h2 data-num="5.">免責聲明</h2>
+  <p>
+    本 App 提供的所有量測數據均為參考性質的幾何計算結果，不構成任何醫療、美容或健康建議。
+    Faceorbit 不對因依賴本 App 數據所做的任何決定承擔責任。
+  </p>
+  <p>
+    本 App 依「現狀」提供，不提供任何明示或暗示的保證，包括但不限於準確性、適用性或不中斷服務的保證。
+    我們保留隨時修改、暫停或終止服務的權利。
+  </p>
+
+  <h2 data-num="6.">智慧財產權</h2>
+  <p>
+    本 App 的所有內容、設計、程式碼及品牌元素均受著作權法保護，為開發者所有。
+    未經書面授權，不得複製、修改或散佈本 App 的任何元素。
+  </p>
+
+  <h2 data-num="7.">第三方服務</h2>
+  <p>本 App 使用以下第三方服務，各服務有其獨立的使用條款與隱私政策：</p>
+  <ul>
+    <li>Apple App Store — 付款與發佈平台</li>
+    <li>Google MediaPipe — 裝置端臉部偵測技術（完全在本機執行）</li>
+    <li>Firebase — App 設定管理（不含個人識別資料）</li>
+    <li>Supabase — 匿名量測數值的雲端儲存</li>
+    <li>RevenueCat — 訂閱管理</li>
+  </ul>
+
+  <h2 data-num="8.">責任限制</h2>
+  <p>
+    在法律允許的最大範圍內，開發者對任何間接、附帶、特殊或衍生性損害概不負責，
+    包括但不限於利潤損失、數據損失或業務中斷，即使已被告知此類損害的可能性。
+  </p>
+
+  <h2 data-num="9.">條款變更</h2>
+  <p>
+    我們保留隨時修改本使用條款的權利。重大變更將透過 App 內通知或更新本頁面告知。
+    在修改後繼續使用本 App 即表示你接受更新後的條款。
+  </p>
+
+  <h2 data-num="10.">準據法</h2>
+  <p>
+    本使用條款依中華民國（台灣）法律解釋與執行。
+    任何因本條款引起的爭議，雙方同意以友好協商方式優先解決。
+  </p>
+
+  <h2 data-num="11.">聯絡我們</h2>
+  <p>
+    如對本使用條款有任何疑問，請聯絡：<br>
+    <a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a>
+  </p>
+</main>
+
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/">首頁</a></li>
+    <li><a href="/support.html">支援</a></li>
+    <li><a href="/privacy.html">隱私政策</a></li>
+  </ul>
+</footer>
+
+</body>
+</html>

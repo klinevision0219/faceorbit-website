@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>支援 — Faceorbit</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0A0A0F;
+      --surface: #13131A;
+      --border: #1E1E2A;
+      --accent: #7B9EFF;
+      --accent-dim: rgba(123,158,255,0.1);
+      --text: #F0F2F5;
+      --text-mid: #9AA0B4;
+      --text-dim: #4A4F63;
+      --white: #ffffff;
+      --grid-line: rgba(123,158,255,0.06);
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 60px;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-size: 15px; font-weight: 600; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back { font-size: 13px; color: var(--text-mid); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 24px 120px;
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .hero-desc {
+      font-size: 17px;
+      color: var(--text-mid);
+      margin-bottom: 56px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CONTACT CARD */
+    .contact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 64px;
+      transition: border-color 0.2s;
+    }
+    .contact-card:hover { border-color: rgba(123,158,255,0.3); }
+
+    .contact-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--accent-dim);
+      border: 1px solid rgba(123,158,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .contact-content h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .contact-content p {
+      font-size: 14px;
+      color: var(--text-mid);
+      margin-bottom: 16px;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #0A0A0F;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .contact-email:hover { opacity: 0.85; }
+
+    /* FAQ */
+    .faq-section h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 32px;
+      letter-spacing: -0.01em;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .faq-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .faq-q-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+    }
+    .faq-icon {
+      font-size: 18px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-left: 16px;
+      transition: transform 0.25s;
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    .faq-a {
+      display: none;
+      padding: 0 24px 20px;
+      font-size: 14px;
+      color: var(--text-mid);
+      line-height: 1.75;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .faq-item.open .faq-a { display: block; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-logo { font-size: 14px; font-weight: 600; color: var(--text-mid); }
+    .footer-logo span { color: var(--accent); }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; }
+    .footer-links a:hover { color: var(--text-mid); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      h1 { font-size: 30px; }
+      .contact-card { flex-direction: column; }
+      footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Face<span>orbit</span></a>
+  <a href="/" class="nav-back">← 返回首頁</a>
+</nav>
+
+<main>
+  <p class="page-eyebrow">Support</p>
+  <h1>支援中心</h1>
+  <p class="hero-desc">遇到問題，或有任何建議？我們很樂意幫助你。</p>
+
+  <div class="contact-card">
+    <div class="contact-icon">✉️</div>
+    <div class="contact-content">
+      <h3>聯絡我們</h3>
+      <p>有任何問題、回饋或功能建議，請寄信給我們。我們通常在 1–3 個工作日內回覆。</p>
+      <a href="mailto:faceorbittw@gmail.com" class="contact-email">
+        faceorbittw@gmail.com
+      </a>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <h2>常見問題</h2>
+    <div class="faq-list">
+
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">我的臉部照片會被上傳到伺服器嗎？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          不會。所有臉部偵測和量測運算均完全在你的裝置上執行，臉部影像不會離開你的手機。
+          我們只會儲存計算後的數值結果（例如對稱指數的數字），不儲存任何影像。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">每天要量測幾次？有建議的量測時間嗎？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          建議每天固定量測 1 次，在相同條件下（例如早上洗臉後、自然光源、正臉朝向鏡頭）。
+          一致的量測條件能讓長期趨勢數據更準確。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">22 項指標是根據什麼計算出來的？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Faceorbit 使用 MediaPipe Face Mesh 技術偵測 468 個臉部 Landmark 點位，
+          再透過幾何計算（距離、角度、比例等）得出各項指標數值。這是科學化的幾何量測，不是主觀評分或濾鏡效果。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">群眾基準數據是從哪裡來的？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          群眾基準數據來自所有使用者的匿名量測結果，依國家、性別、年齡族群分組統計。
+          所有數據均經過匿名化處理，無法追溯至個別用戶。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">如何取消訂閱？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          請前往 iPhone 設定 → Apple ID → 訂閱 → 找到 Faceorbit → 取消訂閱。
+          取消後可繼續使用至訂閱週期結束。Faceorbit 本身不處理付款，所有訂閱均透過 Apple App Store 管理。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">如何刪除我的所有資料？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          你可以在 App 設定中選擇「刪除所有記錄」，或寄信至
+          <a href="mailto:faceorbittw@gmail.com">faceorbittw@gmail.com</a>
+          要求完全刪除帳號與所有關聯資料，我們將在 7 個工作日內處理。
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span class="faq-q-text">App 支援哪些語言？</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          目前支援繁體中文、English、日本語、한국어。更多語言版本持續開發中。
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-logo">Face<span>orbit</span></div>
+  <ul class="footer-links">
+    <li><a href="/">首頁</a></li>
+    <li><a href="/privacy.html">隱私政策</a></li>
+    <li><a href="/terms.html">使用條款</a></li>
+  </ul>
+</footer>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    item.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
